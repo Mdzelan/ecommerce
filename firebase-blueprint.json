@@ -1,0 +1,83 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A luxury product in the boutique.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the product." },
+        "description": { "type": "string", "description": "Detailed description of the product." },
+        "price": { "type": "number", "description": "Price in USD." },
+        "category": { "type": "string", "description": "Product category (e.g., Watches, Bags, Jewelry)." },
+        "images": { "type": "array", "items": { "type": "string" }, "description": "List of image URLs." },
+        "stock": { "type": "integer", "description": "Available stock quantity." },
+        "rating": { "type": "number", "description": "Average rating." },
+        "numReviews": { "type": "integer", "description": "Total number of reviews." },
+        "featured": { "type": "boolean", "description": "Whether the product is featured on the home page." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp." }
+      },
+      "required": ["name", "price", "category", "stock"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The ID of the user who placed the order." },
+        "items": { "type": "array", "items": { "type": "object" }, "description": "List of ordered items." },
+        "totalAmount": { "type": "number", "description": "Total order amount." },
+        "status": { "type": "string", "enum": ["pending", "shipped", "delivered"], "description": "Current status of the order." },
+        "shippingAddress": { "type": "object", "description": "Customer shipping address." },
+        "paymentMethod": { "type": "string", "description": "Payment method used." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Order creation timestamp." }
+      },
+      "required": ["userId", "items", "totalAmount", "status", "shippingAddress"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID." },
+        "email": { "type": "string", "description": "User email address." },
+        "displayName": { "type": "string", "description": "User's full name." },
+        "role": { "type": "string", "enum": ["user", "admin"], "description": "User role." },
+        "wishlist": { "type": "array", "items": { "type": "string" }, "description": "List of product IDs in wishlist." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp." }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A product review.",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string", "description": "The ID of the product being reviewed." },
+        "userId": { "type": "string", "description": "The ID of the user who wrote the review." },
+        "userName": { "type": "string", "description": "Name of the reviewer." },
+        "rating": { "type": "integer", "description": "Rating from 1 to 5." },
+        "comment": { "type": "string", "description": "Review comment." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Review timestamp." }
+      },
+      "required": ["productId", "userId", "rating", "comment"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Global store settings.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "Support email address." },
+        "location": { "type": "string", "description": "Store physical location." },
+        "phoneNumber": { "type": "string", "description": "Contact phone number." }
+      },
+      "required": ["email", "location", "phoneNumber"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": { "schema": "Product", "description": "Collection of luxury products." },
+    "/orders/{orderId}": { "schema": "Order", "description": "Collection of customer orders." },
+    "/users/{userId}": { "schema": "User", "description": "Collection of user profiles." },
+    "/reviews/{reviewId}": { "schema": "Review", "description": "Collection of product reviews." },
+    "/settings/{settingId}": { "schema": "Settings", "description": "Collection of global store settings." }
+  }
+}
