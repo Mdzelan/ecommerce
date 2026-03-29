@@ -7,7 +7,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   LineChart, Line, PieChart, Pie, Cell 
 } from 'recharts';
-import { Package, ShoppingBag, Users, DollarSign, ArrowUpRight, LayoutDashboard, List, ClipboardList, Settings } from 'lucide-react';
+import { Package, ShoppingBag, Users, DollarSign, ArrowUpRight, LayoutDashboard, List, ClipboardList, Settings, MessageSquare } from 'lucide-react';
 
 const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState({
@@ -92,6 +92,10 @@ const AdminDashboard: React.FC = () => {
           <Link to="/admin/settings" className="bg-white border border-zinc-100 py-3 px-6 rounded-2xl text-xs font-bold uppercase tracking-widest flex items-center space-x-2 hover:bg-zinc-50 transition-all">
             <Settings size={16} />
             <span>Settings</span>
+          </Link>
+          <Link to="/admin/chats" className="bg-white border border-zinc-100 py-3 px-6 rounded-2xl text-xs font-bold uppercase tracking-widest flex items-center space-x-2 hover:bg-zinc-50 transition-all">
+            <MessageSquare size={16} />
+            <span>Chat Logs</span>
           </Link>
         </div>
       </div>

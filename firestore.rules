@@ -50,6 +50,25 @@ service cloud.firestore {
     //   - comment: string (required, 1-1000 chars)
     //   - createdAt: string (required, ISO 8601)
     //
+    // Collection: settings
+    // Document ID: contact
+    // Fields:
+    //   - email: string (required, email format)
+    //   - location: string (required)
+    //   - phoneNumber: string (required)
+    //   - bkashNumber: string (required)
+    //   - nagadNumber: string (required)
+    //   - chatAutoMessage: string (required)
+    //
+    // Collection: chats
+    // Document ID: auto-generated (prefixed with chat_)
+    // Fields:
+    //   - userId: string (required)
+    //   - userEmail: string (required)
+    //   - userName: string (required)
+    //   - lastMessageAt: timestamp (required)
+    //   - messages: list (required, list of message objects)
+    //
     // ===============================================================
 
     // ===============================================================
@@ -131,10 +150,13 @@ service cloud.firestore {
     }
 
     function isValidSettings(data) {
-      return data.keys().hasAll(['email', 'location', 'phoneNumber']) &&
+      return data.keys().hasAll(['email', 'location', 'phoneNumber', 'bkashNumber', 'nagadNumber', 'chatAutoMessage']) &&
              isValidEmail(data.email) &&
              data.location is string && data.location.size() > 0 && data.location.size() < 1000 &&
-             data.phoneNumber is string && data.phoneNumber.size() > 0 && data.phoneNumber.size() < 50;
+             data.phoneNumber is string && data.phoneNumber.size() > 0 && data.phoneNumber.size() < 50 &&
+             data.bkashNumber is string && data.bkashNumber.size() < 20 &&
+             data.nagadNumber is string && data.nagadNumber.size() < 20 &&
+             data.chatAutoMessage is string && data.chatAutoMessage.size() > 0 && data.chatAutoMessage.size() < 2000;
     }
 
     // ===============================================================
@@ -170,6 +192,12 @@ service cloud.firestore {
       allow create: if isAuthenticated() && isValidReview(request.resource.data);
       allow update: if isAuthenticated() && isOwner(resource.data.userId) && isValidReview(request.resource.data) && request.resource.data.productId == resource.data.productId;
       allow delete: if isAdmin() || (isAuthenticated() && isOwner(resource.data.userId));
+    }
+
+    match /chats/{chatId} {
+      allow read: if isAdmin();
+      allow create: if true;
+      allow update: if true;
     }
   }
 }

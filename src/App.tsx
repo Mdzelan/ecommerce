@@ -8,6 +8,7 @@ import { Toaster } from 'sonner';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
+import ChatAssistant from './components/ChatAssistant';
 
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -22,6 +23,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminProducts from './pages/AdminProducts';
 import AdminOrders from './pages/AdminOrders';
 import AdminSettings from './pages/AdminSettings';
+import AdminChats from './pages/AdminChats';
 import About from './pages/About';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean }> = ({ children, adminOnly }) => {
@@ -86,9 +88,15 @@ const App: React.FC = () => {
                       <AdminSettings />
                     </ProtectedRoute>
                   } />
+                  <Route path="/admin/chats" element={
+                    <ProtectedRoute adminOnly>
+                      <AdminChats />
+                    </ProtectedRoute>
+                  } />
                 </Routes>
               </main>
               <Footer />
+              <ChatAssistant />
               <Toaster position="top-right" theme="light" richColors />
             </div>
           </Router>

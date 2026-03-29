@@ -3,7 +3,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
-import { Mail, MapPin, Phone, Save, Loader2, ArrowLeft } from 'lucide-react';
+import { Mail, MapPin, Phone, Save, Loader2, ArrowLeft, MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface ContactSettings {
@@ -12,6 +12,7 @@ interface ContactSettings {
   phoneNumber: string;
   bkashNumber: string;
   nagadNumber: string;
+  chatAutoMessage: string;
 }
 
 const AdminSettings: React.FC = () => {
@@ -20,7 +21,8 @@ const AdminSettings: React.FC = () => {
     location: '',
     phoneNumber: '',
     bkashNumber: '',
-    nagadNumber: ''
+    nagadNumber: '',
+    chatAutoMessage: ''
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -37,7 +39,8 @@ const AdminSettings: React.FC = () => {
             location: data.location || '',
             phoneNumber: data.phoneNumber || '',
             bkashNumber: data.bkashNumber || '',
-            nagadNumber: data.nagadNumber || ''
+            nagadNumber: data.nagadNumber || '',
+            chatAutoMessage: data.chatAutoMessage || 'Hello! I am your Aurelius Assistant. How can I help you today?'
           });
         }
       } catch (error) {
@@ -160,6 +163,22 @@ const AdminSettings: React.FC = () => {
                 value={settings.location}
                 onChange={(e) => setSettings({ ...settings, location: e.target.value })}
               ></textarea>
+            </div>
+
+            {/* Chat Auto Message */}
+            <div className="space-y-4">
+              <label className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest text-zinc-400">
+                <MessageSquare size={16} className="text-black" />
+                <span>Chat Auto Message</span>
+              </label>
+              <textarea
+                required
+                className="minimal-input w-full h-32 resize-none"
+                placeholder="Initial greeting message for customers..."
+                value={settings.chatAutoMessage}
+                onChange={(e) => setSettings({ ...settings, chatAutoMessage: e.target.value })}
+              ></textarea>
+              <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">This message will be shown when the chat is first opened.</p>
             </div>
           </div>
 
